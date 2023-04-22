@@ -1,0 +1,39 @@
+{
+  "dependencies": {
+    "next": "^13.3.1",
+    "nookies": "^2.5.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.0.4"
+  },
+  "name": "nrstate",
+  "description": "State for React Server Components on Next.js",
+  "version": "0.1.0",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rgbkids/nrstate.git"
+  },
+  "keywords": [
+    "react",
+    "next",
+    "rsc",
+    "server",
+    "components"
+  ],
+  "author": "rgbkids",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rgbkids/nrstate/issues"
+  },
+  "homepage": "https://github.com/rgbkids/nrstate#readme",
+  "devDependencies": {
+    "@types/react": "^18.0.38"
+  }
+}
