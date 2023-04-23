@@ -1,8 +1,7 @@
-import { cookies } from 'next/headers';
+import { cookies } from "next/headers";
 
 export function parseToPageState<T>(initialPageState: T, path: string): T {
-  let key = path;
-  // TODO: pathがなければ自動で自分自身
+  let key = path; // TODO:
 
   const cookieStore = cookies();
   let value = cookieStore.get(key)?.value;
@@ -12,7 +11,7 @@ export function parseToPageState<T>(initialPageState: T, path: string): T {
     return initialPageState;
   }
 
-  let jsonString = decodeURIComponent(value ?? '');
+  let jsonString = decodeURIComponent(value ?? "");
 
   const json = JSON.parse(jsonString);
   return json;
