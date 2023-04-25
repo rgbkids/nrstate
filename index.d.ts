@@ -1,2 +1,1 @@
-export * from "./PageStateURI";
-export * from "./parseToPageState";
+export * from "./PageStateServer";
