@@ -1,10 +1,16 @@
 import { cookies, headers } from 'next/headers';
 
-export function currentPageState<T>(initialPageState: T, path: string): T {
+export function currentPageState<T>(
+  initialPageState: T,
+  path: string,
+  clearAuto?: boolean,
+): T {
   const headersList = headers();
 
-  if (!headersList.get('referer')?.includes(path)) {
-    return initialPageState;
+  if (clearAuto !== false) {
+    if (!headersList.get('referer')?.includes(path)) {
+      return initialPageState;
+    }
   }
 
   const cookieStore = cookies();
@@ -19,6 +25,10 @@ export function currentPageState<T>(initialPageState: T, path: string): T {
   return json;
 }
 
-export function getPageState<T>(initialPageState: T, path: string): T {
-  return currentPageState<T>(initialPageState, path);
+export function getPageState<T>(
+  initialPageState: T,
+  path: string,
+  clearAuto?: boolean,
+): T {
+  return currentPageState<T>(initialPageState, path, clearAuto);
 }

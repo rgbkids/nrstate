@@ -8,7 +8,7 @@
   },
   "name": "nrstate",
   "description": "State for React Server Components on Next.js",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
