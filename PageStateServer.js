@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPageState = exports.currentPageState = void 0;
+exports.getPageState = exports.getPageLocation = exports.currentPageState = void 0;
 const headers_1 = require("next/headers");
 function currentPageState(initialPageState, path, clearAuto) {
     var _a, _b;
@@ -20,6 +20,16 @@ function currentPageState(initialPageState, path, clearAuto) {
     return json;
 }
 exports.currentPageState = currentPageState;
+function getPageLocation(path) {
+    var _a;
+    const cookieStore = (0, headers_1.cookies)();
+    const value = (_a = cookieStore.get(path)) === null || _a === void 0 ? void 0 : _a.value;
+    const jsonString = decodeURIComponent(value !== null && value !== void 0 ? value : '');
+    const json = JSON.parse(jsonString);
+    const params = new URLSearchParams(json);
+    return params.toString();
+}
+exports.getPageLocation = getPageLocation;
 function getPageState(initialPageState, path, clearAuto) {
     return currentPageState(initialPageState, path, clearAuto);
 }

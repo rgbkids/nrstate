@@ -25,6 +25,15 @@ export function currentPageState<T>(
   return json;
 }
 
+export function getPageLocation(path: string) {
+  const cookieStore = cookies();
+  const value = cookieStore.get(path)?.value;
+  const jsonString = decodeURIComponent(value ?? '');
+  const json = JSON.parse(jsonString);
+  const params = new URLSearchParams(json);
+  return params.toString();
+}
+
 export function getPageState<T>(
   initialPageState: T,
   path: string,
