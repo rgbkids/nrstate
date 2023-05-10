@@ -1,3 +1,4 @@
+import { revalidateTag } from 'next/cache';
 import { cookies, headers } from 'next/headers';
 
 export function currentPageState<T>(
@@ -22,16 +23,21 @@ export function currentPageState<T>(
 
   const jsonString = decodeURIComponent(value ?? '');
   const json = JSON.parse(jsonString);
+
   return json;
 }
 
 export function getPageLocation(path: string) {
-  const cookieStore = cookies();
-  const value = cookieStore.get(path)?.value;
-  const jsonString = decodeURIComponent(value ?? '');
-  const json = JSON.parse(jsonString);
-  const params = new URLSearchParams(json);
-  return params.toString();
+  try {
+    const cookieStore = cookies();
+    const value = cookieStore.get(path)?.value;
+    const jsonString = decodeURIComponent(value ?? '');
+    const json = JSON.parse(jsonString);
+    const params = new URLSearchParams(json);
+    return params.toString();
+  } catch (error) {
+    return '';
+  }
 }
 
 export function getPageState<T>(
@@ -40,4 +46,35 @@ export function getPageState<T>(
   clearAuto?: boolean,
 ): T {
   return currentPageState<T>(initialPageState, path, clearAuto);
+}
+
+export function parseQueryStringByPageState<T>(pageState: T) {
+  const queryString = `${encodeURIComponent(JSON.stringify(pageState))}`;
+  return queryString;
+}
+
+function setCookieForPageState(key: string, value: string) {
+  /* @ts-ignore */
+  cookies().set({
+    name: key,
+    value: value,
+    httpOnly: true,
+    path: '/',
+  });
+}
+
+export function experimental_setPageState<T>(
+  nextPageState: T,
+  path: string,
+  revalidate?: () => void,
+) {
+  const newPageState = { ...nextPageState };
+  const pageStateString = parseQueryStringByPageState(newPageState);
+  setCookieForPageState(path, `${pageStateString}`);
+
+  if (revalidate) {
+    revalidate();
+  } else {
+    revalidateTag(pageStateString);
+  }
 }
